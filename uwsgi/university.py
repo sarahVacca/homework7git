@@ -45,7 +45,7 @@ def showAllStudents(conn):
 
     count = 0
     # each iteration of this loop creates on row of output:
-    for id, name in cursor:
+    for idNum, name in cursor:
         body += (
             "<tr>"
             f"<td><a href='?idNum={idNum}'>{name}</a></td>"
@@ -129,7 +129,7 @@ def getUpdateStudentForm(conn, idNum):
 
 
 ################################################################################
-def addProfile(conn, name):
+def addStudent(conn, name):
 
     # get a cursor object. cursor object will help us run queries on the database
     cursor = conn.cursor()
@@ -156,47 +156,24 @@ def addProfile(conn, name):
 
     return body, nextID
 
+################################################################################
+def updateStudent(conn, idNum, name):
 
+    # get a cursor object. cursor object will help us run queries on the database
+    cursor = conn.cursor()
 
+    sql = "UPDATE Student SET name=%s WHERE id = %s"
+    params = (name, idNum)
 
+    cursor.execute(sql, params)
+    conn.commit()
 
+    if cursor.rowcount > 0:
+        return "Update Student Succeeded."
+    else:
+        return "Update Student Failed."
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+################################################################################
 def deleteStudent(conn, idNum):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM Student WHERE id = %s", (idNum,))
@@ -205,15 +182,3 @@ def deleteStudent(conn, idNum):
         return "Delete Student Succeeded."
     else:
         return "Delete Student Failed."
-
-
-
-
-
-
-
-
-
-
-
-
