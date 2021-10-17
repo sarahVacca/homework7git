@@ -14,6 +14,9 @@ CREATE TABLE Enrolled (
     student INT SERIAL PRIMARY KEY,
     course VARCHAR(100) SERIAL PRIMARY KEY,
     credit_status VARCHAR(100),
+    FOREIGN KEY (student) REFERENCES Room(id),
+    FOREIGN KEY (course) REFERENCES Course(name)
+
 );
 
 
@@ -27,7 +30,11 @@ CREATE TABLE Enrolled (
 
 
 
-
+CREATE TABLE Room (
+    id INT SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    capacity INT,
+);
 
 
 
