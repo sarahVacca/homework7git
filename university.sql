@@ -26,6 +26,10 @@ CREATE TABLE Course(
 
 
 
+CREATE TABLE Department(
+    name VARCHAR(100) SERIAL PRIMARY KEY,
+    office VARCHAR(100)
+);
 
 
 
