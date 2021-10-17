@@ -37,7 +37,10 @@ CREATE TABLE Enrolled (
 
 
 
-
+CREATE TABLE Student (
+   id INT SERIAL PRIMARY KEY, 
+   name VARCHAR(100),
+);
 
 
 
