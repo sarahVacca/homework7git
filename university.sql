@@ -25,40 +25,14 @@ CREATE TABLE MajorsIn(
     FOREIGN KEY (dept) REFERENCES Department(name)
 );
 
-
-
-
-
-
-
-
-
-
-
 CREATE TABLE Room (
     id INT SERIAL PRIMARY KEY,
     name VARCHAR(100),
     capacity INT,
 );
 
-
-
-
-
-
-
-
-
 CREATE TABLE Student (
    id INT SERIAL PRIMARY KEY, 
    name VARCHAR(100),
 );
-
-
-
-
-
-
-
-
-
+Fi
