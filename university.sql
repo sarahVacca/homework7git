@@ -47,7 +47,11 @@ asdasdsa
 
 
 
-
+CREATE TABLE Enrolled (
+    student INT SERIAL PRIMARY KEY,
+    course VARCHAR(100) SERIAL PRIMARY KEY,
+    credit_status VARCHAR(100),
+);
 
 
 
