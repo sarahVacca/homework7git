@@ -1,5 +1,9 @@
-CREATE TABLE
-asdasdsa
+CREATE TABLE Course(
+    name VARCHAR(100) SERIAL PRIMARY KEY,
+    start_time TIME,
+    end_time TIME,
+    room INT
+);
 
 
 
@@ -22,6 +26,10 @@ asdasdsa
 
 
 
+CREATE TABLE Department(
+    name VARCHAR(100) SERIAL PRIMARY KEY,
+    office VARCHAR(100)
+);
 
 
 
