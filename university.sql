@@ -5,55 +5,10 @@ CREATE TABLE Course(
     room INT
 );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 CREATE TABLE Department(
     name VARCHAR(100) SERIAL PRIMARY KEY,
     office VARCHAR(100)
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 CREATE TABLE Enrolled (
     student INT SERIAL PRIMARY KEY,
