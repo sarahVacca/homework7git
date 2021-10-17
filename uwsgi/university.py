@@ -158,3 +158,62 @@ def addProfile(conn, name):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def deleteStudent(conn, idNum):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Student WHERE id = %s", (idNum,))
+    conn.commit()
+    if cursor.rowcount > 0:
+        return "Delete Student Succeeded."
+    else:
+        return "Delete Student Failed."
+
+
+
+
+
+
+
+
+
+
+
+
