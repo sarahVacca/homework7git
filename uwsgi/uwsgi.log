@@ -1,0 +1,39 @@
+*** Starting uWSGI 2.0.19.1 (64bit) on [Sun Oct 17 22:37:17 2021] ***
+compiled with version: 10.2.1 20210110 on 16 October 2021 23:03:28
+os: Linux-5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021
+nodename: 2d45f9247787
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 8
+current working directory: /uwsgi
+detected binary path: /usr/local/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** WARNING: you are running uWSGI without its master process manager ***
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /var/www/uwsgi/uwsgi.sock fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.9.7 (default, Oct 13 2021, 09:00:49)  [GCC 10.2.1 20210110]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x55eb8c221fa0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 291680 bytes (284 KB) for 4 cores
+*** Operational MODE: preforking ***
+unable to find "application" callable in file /uwsgi/university.py
+unable to load app 0 (mountpoint='') (callable not found or import error)
+*** no app loaded. going in full dynamic mode ***
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI worker 1 (pid: 1, cores: 1)
+spawned uWSGI worker 2 (pid: 7, cores: 1)
+spawned uWSGI worker 3 (pid: 8, cores: 1)
+spawned uWSGI worker 4 (pid: 9, cores: 1)
