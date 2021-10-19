@@ -123,7 +123,7 @@ def showAddStudentForm():
         <tr>
             <td></td>
             <td>
-            <input type="submit" name="addProfile" value="Add!">
+            <input type="submit" name="addStudent" value="Add!">
             </td>
         </tr>
     </table>

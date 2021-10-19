@@ -12,4 +12,3 @@ CREATE TABLE MajorsIn(
     FOREIGN KEY (student) REFERENCES Student(id),
     FOREIGN KEY (dept) REFERENCES Department(name)
 );
-
