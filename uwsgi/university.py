@@ -103,6 +103,50 @@ def showAllRoom(conn):
 
     return body
 
+def showAllCourse(conn):
+
+    # get a cursor object. cursor object will help us run queries on the database
+    cursor = conn.cursor()
+
+    sql = """
+    SELECT name, start_time, end_time, room
+    FROM Course
+    """
+
+    cursor.execute(sql)
+
+    ## create an HTML table for output:
+    body = """
+    <h2>Course List</h2>
+    <p>
+    <table border=1>
+      <tr>
+        <td><font size=+1"><b>name</b></font></td>
+        <td><font size=+1"><b>start_time</b></font></td>
+        <td><font size=+1"><b>end_time</b></font></td>
+        <td><font size=+1"><b>room</b></font></td>
+        <td><font size=+1"><b>delete</b></font></td>
+      </tr>
+    """
+
+    count = 0
+    # each iteration of this loop creates on row of output:
+    for idNum, name in cursor:
+        body += (
+            "<tr>"
+            f"<td><a href='?idNum={idNum}'>{name}</a></td>"
+            "<td><form method='post' action='university.py'>"
+            f"<input type='hidden' NAME='idNum' VALUE='{idNum}'>"
+            '<input type="submit" name="deleteCourse" value="Delete">'
+            "</form></td>"
+            "</tr>\n"
+        )
+        count += 1
+
+    body += "</table>" f"<p>Found {count} Courses.</p>"
+
+    return body
+
 
 def showStudentPage(conn, idNum):
 
@@ -199,7 +243,59 @@ def showRoomPage(conn, idNum):
         % idNum
     )
 
+def showCoursePage(conn, idNum):
 
+    body = """
+    <a href="./university.py">Return to main page.</a>
+    """
+
+    # get a cursor object. cursor object will help us run queries on the database
+    cursor = conn.cursor()
+
+    sql = """
+    SELECT *
+    FROM Course
+    WHERE id=%s
+    """
+    cursor.execute(sql, (int(idNum),))
+
+    # get the data from the database:
+    data = cursor.fetchall()
+
+    ## show student information
+    (idNum, name, start_time, end_time, room) = data[0]
+
+    body += """
+    <h2>%s %s's Course Page</h2>
+    <p>
+    <table border=1>
+        <tr>
+            <td>name</td>
+            <td>start_time</td>
+            <td>end_time</td>
+            <td>room</td>
+            <td>%s</td>
+        </tr>
+    </table>
+    """ % (
+        name, 
+        start_time, 
+        end_time,
+        room
+
+
+    )
+
+    ## provide an update button:
+    body += (
+        """
+    <FORM METHOD="POST" action="university.py">
+    <INPUT TYPE="HIDDEN" NAME="idNum" VALUE="%s">
+    <INPUT TYPE="SUBMIT" NAME="showUpdateCourseForm" VALUE="Update Course">
+    </FORM>
+    """
+        % idNum
+    )
 
     ################################################################################
 def showAddStudentForm():
@@ -245,7 +341,33 @@ def showAddRoomForm():
     </table>
     </FORM>
     """
+################################################################################
+def showAddCourseForm():
 
+    return """
+    <h2>Add A Course</h2>
+    <p>
+    <FORM METHOD="POST">
+    <table>
+        <tr>
+            <td>name</td>
+            <td><INPUT TYPE="TEXT" NAME="name" VALUE=""></td>
+            <td>name</td>
+            <td><INPUT TYPE="TEXT" NAME="start_time" VALUE=""></td>
+            <td>name</td>
+            <td><INPUT TYPE="TEXT" NAME="end_time" VALUE=""></td>
+            <td>name</td>
+            <td><INPUT TYPE="TEXT" NAME="room" VALUE=""></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+            <input type="submit" name="addCourse" value="Add!">
+            </td>
+        </tr>
+    </table>
+    </FORM>
+    """
 
 ################################################################################
 def getUpdateStudentForm(conn, idNum):
@@ -335,7 +457,56 @@ def getUpdateRoomForm(conn, idNum):
         idNum,
     )
 
+################################################################################
+def getUpdateCourseForm(conn, idNum):
+    ## FIRST, get current data for this profile
 
+    # get a cursor object. cursor object will help us run queries on the database
+    cursor = conn.cursor()
+
+    sql = """
+    SELECT *
+    FROM Course
+    WHERE id=%s
+    """
+    cursor.execute(sql, (idNum,))
+
+    # get the data from the database:
+    data = cursor.fetchall()
+
+    ## CREATE A FORM TO UPDATE THIS PROFILE
+    (name, start_time, end_time, room) = data[0]
+
+    return """
+    <h2>Update Your Profile Page</h2>
+    <p>
+    <FORM METHOD="POST">
+    <table>
+        <tr>
+            <td>name</td>
+            <td><INPUT TYPE="TEXT" NAME="name" VALUE="%s"></td>
+            <td>start_time</td>
+            <td><INPUT TYPE="TEXT" NAME="start_time" VALUE="%s"></td>
+            <td>end_time</td>
+            <td><INPUT TYPE="TEXT" NAME="end_time" VALUE="%s"></td>
+            <td>room</td>
+            <td><INPUT TYPE="TEXT" NAME="room" VALUE="%s"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+            <input type="hidden" name="idNum" value="%s">
+            <input type="submit" name="completeUpdate" value="Update!">
+            </td>
+        </tr>
+    </table>
+    </FORM>
+    """ % (
+        name,
+        start_time,
+        end_time,
+        room,
+    )
 ################################################################################
 def addStudent(conn, name):
 
@@ -390,6 +561,33 @@ def addRoom(conn, name, capacity):
         body = "Add Room Failed."
 
     return body, nextID
+    ################################################################################
+def addCourse(conn, name, start_time, end_time, room):
+
+    # get a cursor object. cursor object will help us run queries on the database
+    cursor = conn.cursor()
+
+    sql = "SELECT max(ID) FROM Course"
+    try:
+        cursor.execute(sql)
+        data = cursor.fetchone()
+        nextID = int(data[0]) + 1
+    except:
+        nextID = 1
+
+    sql = "INSERT INTO Course VALUES (%s,%s,%s,%s)"
+    params = (nextID, name, start_time, end_time, room)
+
+    cursor.execute(sql, params)
+    conn.commit()
+
+    body = ""
+    if cursor.rowcount > 0:
+        body = "Add Course Succeeded."
+    else:
+        body = "Add Course Failed."
+
+    return body, nextID
 
 ################################################################################
 def updateStudent(conn, idNum, name):
@@ -424,6 +622,23 @@ def updateRoom(conn, idNum, name, capacity):
         return "Update Room Failed."
 
 ################################################################################
+def updateCourse(conn, idNum, name, start_time, end_time, room):
+
+    # get a cursor object. cursor object will help us run queries on the database
+    cursor = conn.cursor()
+
+    sql = "UPDATE Course SET name=%s WHERE id = %s"
+    params = (name, idNum, start_time, end_time, room)
+
+    cursor.execute(sql, params)
+    conn.commit()
+
+    if cursor.rowcount > 0:
+        return "Update Course Succeeded."
+    else:
+        return "Update Course Failed."
+
+################################################################################
 def deleteStudent(conn, idNum):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM Student WHERE id = %s", (idNum,))
@@ -441,6 +656,16 @@ def deleteRoom(conn, idNum):
         return "Delete Room Succeeded."
     else:
         return "Delete Room Failed."
+
+################################################################################
+def deleteCourse(conn, idNum):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Course WHERE id = %s", (idNum,))
+    conn.commit()
+    if cursor.rowcount > 0:
+        return "Delete Course Succeeded."
+    else:
+        return "Delete Course Failed."
 
 def get_qs_post(env):
     """
@@ -553,6 +778,52 @@ def application(env, start_response):
     else:
         body += showAllRoom(conn)
         body += showAddRoomForm()
+
+        ######################################################### COURSE ###################################
+    if "idNum" in post:
+        idNum = post["idNum"][0]
+        ## handle case of starting to do an update -- show the form
+        if "showUpdateCourseForm" in post and "idNum" in post:
+            body += getUpdateCourseForm(conn, post["idNum"][0])
+        ## handle case of completing an update
+        elif "completeUpdate" in post:
+            body += updateCourse(
+                conn,
+                idNum,
+                post["name"][0],
+                post["start_time"][0],
+                post["end_time"][0],
+                post["room"][0],
+            )
+        ## handle case of showing a profile page
+        if "updateCourse" in post:
+            name = post["name"][0]
+            start_time = post["start_time"][0]
+            end_time = post["end_time"][0]
+            room = post["room"][0]
+            body += updateCourse(conn, idNum, name, start_time, end_time, room)
+        elif "deleteCourse" in post:
+            body += deleteCourse(conn, idNum)
+            idNum = None
+    ## handle case of adding a profile page:
+    elif "addCourse" in post:
+        b, idNum = addCourse(
+            conn,
+            post["name"][0],
+            post["start_time"][0],
+            post["end_time"][0],
+            post["room"][0],
+        )
+        body += b
+    elif "idNum" in qs:
+        idNum = qs.get("idNum")[0]
+    if idNum:
+        # Finish by showing the profile page
+        body += showCoursePage(conn, idNum)
+    # default case: show all profiles
+    else:
+        body += showAllCourse(conn)
+        body += showAddCourseForm()
 
 
     start_response("200 OK", [("Content-Type", "text/html")])
