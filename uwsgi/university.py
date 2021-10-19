@@ -37,7 +37,6 @@ def showAllStudents(conn):
     <p>
     <table border=1>
       <tr>
-        <td><font size=+1"><b>id</b></font></td>
         <td><font size=+1"><b>name</b></font></td>
         <td><font size=+1"><b>delete</b></font></td>
       </tr>
@@ -82,7 +81,7 @@ def showStudentPage(conn, idNum):
     data = cursor.fetchall()
 
     ## show student information
-    (idNum, os.name) = data[0]
+    (idNum, name) = data[0]
 
     body += """
     <h2>%s %s's Student Page</h2>
@@ -94,7 +93,7 @@ def showStudentPage(conn, idNum):
         </tr>
     </table>
     """ % (
-        os.name,
+        name,
     )
 
     ## provide an update button:
