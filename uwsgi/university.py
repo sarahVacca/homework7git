@@ -352,11 +352,11 @@ def showAddCourseForm():
         <tr>
             <td>name</td>
             <td><INPUT TYPE="TEXT" NAME="name" VALUE=""></td>
-            <td>name</td>
+            <td>start time</td>
             <td><INPUT TYPE="TEXT" NAME="start_time" VALUE=""></td>
-            <td>name</td>
+            <td>end time</td>
             <td><INPUT TYPE="TEXT" NAME="end_time" VALUE=""></td>
-            <td>name</td>
+            <td>room</td>
             <td><INPUT TYPE="TEXT" NAME="room" VALUE=""></td>
         </tr>
         <tr>
