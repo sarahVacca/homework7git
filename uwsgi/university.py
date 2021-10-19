@@ -189,7 +189,7 @@ def addStudent(conn, name):
     except:
         nextID = 1
 
-    sql = "INSERT INTO Student VALUES (%s,%s,%s,%s,%s)"
+    sql = "INSERT INTO Student VALUES (%s,%s)"
     params = (nextID, name)
 
     cursor.execute(sql, params)
