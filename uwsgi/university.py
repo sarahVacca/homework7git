@@ -476,7 +476,7 @@ def showAddCourseForm():
 def showAddEnrolledForm():
 
     return """
-    <h2>Enroll a</h2>
+    <h2>Enroll a Student</h2>
     <p>
     <FORM METHOD="POST">
     <table>
