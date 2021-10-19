@@ -37,6 +37,7 @@ def showAllStudents(conn):
     <p>
     <table border=1>
       <tr>
+        <td><font size=+1"><b>id</b></font></td>
         <td><font size=+1"><b>name</b></font></td>
         <td><font size=+1"><b>delete</b></font></td>
       </tr>
@@ -81,7 +82,7 @@ def showStudentPage(conn, idNum):
     data = cursor.fetchall()
 
     ## show student information
-    (idNum, name) = data[0]
+    (idNum, os.name) = data[0]
 
     body += """
     <h2>%s %s's Student Page</h2>
@@ -93,7 +94,7 @@ def showStudentPage(conn, idNum):
         </tr>
     </table>
     """ % (
-        name,
+        os.name,
     )
 
     ## provide an update button:
@@ -172,7 +173,6 @@ def getUpdateStudentForm(conn, idNum):
         name,
         idNum,
     )
-
 
 ################################################################################
 def addStudent(conn, name):
@@ -289,7 +289,6 @@ def application(env, start_response):
             post["name"][0],
         )
         body += b
-        body += showStudentPage(conn, idNum)
     elif "idNum" in qs:
         idNum = qs.get("idNum")[0]
     if idNum:
